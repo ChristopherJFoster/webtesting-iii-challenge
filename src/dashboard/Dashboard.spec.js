@@ -11,36 +11,36 @@ describe('<Dashboard />', () => {
     const tree = renderer.create(<Dashboard />).toJSON();
     expect(tree).toMatchSnapshot();
   });
-});
 
-describe('Lock/Unlock Button', () => {
-  it('does not lock when gate is open', () => {
-    const { getByText } = render(<Dashboard />);
-    fireEvent.click(getByText(/^lock gate$/i));
-    getByText(/^unlocked$/i);
+  describe('Lock/Unlock Button', () => {
+    it('does not lock when gate is open', () => {
+      const { getByText } = render(<Dashboard />);
+      fireEvent.click(getByText(/^lock gate$/i));
+      getByText(/^unlocked$/i);
+    });
+
+    it('locks when gate is closed', () => {
+      const { getByText } = render(<Dashboard />);
+      fireEvent.click(getByText(/^close gate$/i));
+      fireEvent.click(getByText(/^lock gate$/i));
+      getByText(/^locked$/i);
+    });
   });
 
-  it('locks when gate is closed', () => {
-    const { getByText } = render(<Dashboard />);
-    fireEvent.click(getByText(/^close gate$/i));
-    fireEvent.click(getByText(/^lock gate$/i));
-    getByText(/^locked$/i);
-  });
-});
+  describe('Close/Open Button', () => {
+    it('does not open when gate is locked', () => {
+      const { getByText } = render(<Dashboard />);
+      fireEvent.click(getByText(/^close gate$/i));
+      fireEvent.click(getByText(/^lock gate$/i));
+      fireEvent.click(getByText(/^open gate$/i));
+      getByText(/^closed$/i);
+    });
 
-describe('Open/Close Button', () => {
-  it('does not open when gate is locked', () => {
-    const { getByText } = render(<Dashboard />);
-    fireEvent.click(getByText(/^close gate$/i));
-    fireEvent.click(getByText(/^lock gate$/i));
-    fireEvent.click(getByText(/^open gate$/i));
-    getByText(/^closed$/i);
-  });
-
-  it('opens when gate is unlocked', () => {
-    const { getByText } = render(<Dashboard />);
-    fireEvent.click(getByText(/^close gate$/i));
-    fireEvent.click(getByText(/^open gate$/i));
-    getByText(/^open$/i);
+    it('opens when gate is unlocked', () => {
+      const { getByText } = render(<Dashboard />);
+      fireEvent.click(getByText(/^close gate$/i));
+      fireEvent.click(getByText(/^open gate$/i));
+      getByText(/^open$/i);
+    });
   });
 });
